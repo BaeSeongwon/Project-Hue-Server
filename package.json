@@ -1,0 +1,11 @@
+{
+  "name": "project_hue_npm",
+  "version": "1.0.0",
+  "description": "프로젝트 휴 서버 npm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
