@@ -94,7 +94,7 @@ app.get('/Login',function (req,res) {
                     key_password:data[key].password
                 }
             }
-            if(result=="")
+            if(data=="")
             {
                 res.send("아이디가 존재하지 않습니다.");
             }
