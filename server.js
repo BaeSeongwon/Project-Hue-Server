@@ -27,16 +27,17 @@ app.use(session({
 //TODO:Server구동
 http.createServer(app).listen('80',function(){
     console.log('서버실행했다장보리!!');
+    //TODO:DB Connection
+    pool = mysql.createPool({
+        connectionLimit: 15,
+        host: 'hue.c4yiq5vuopvi.ap-northeast-2.rds.amazonaws.com',
+        user: 'root',
+        database:'HueDB',
+        password: 'seongwon9179'
+    });
 });
 
-//TODO:DB Connection
-var pool = mysql.createPool({
-    connectionLimit: 15,
-    host: 'hue.c4yiq5vuopvi.ap-northeast-2.rds.amazonaws.com',
-    user: 'root',
-    database:'HueDB',
-    password: 'seongwon9179'
-});
+
 
 app.use(express.static(__dirname));
 
