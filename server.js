@@ -74,10 +74,10 @@ app.get('/wemoControl',function (req,res,next) {
 
 
 //TODO:로그인
-app.post('/Login',function (req,res) {
+app.get('/Login',function (req,res) {
     var user = {
-        id:req.body.id,
-        password:req.body.password
+        id: 'root',
+        password: '1234'
     };
 
     pool.getConnections(function (err,connection) {
