@@ -83,7 +83,7 @@ app.get('/Login',function (req,res) {
 
     pool.getConnection(function (err,connection) {
 
-        var sql = "select Id from user where Id=?";
+        var sql = "select Id,password from user where Id=?";
 
         connection.query(sql,[user.id],function (err,data) {
 
