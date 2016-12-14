@@ -81,7 +81,7 @@ app.get('/Login',function (req,res) {
         password: '1234'
     };
 
-    pool.getConnections(function (err,connection) {
+    pool.getConnection(function (err,connection) {
 
         var sql = "select Id from user where Id=?";
 
