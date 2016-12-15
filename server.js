@@ -51,7 +51,7 @@ app.get('/search' ,function (req,res) {
     console.log("왔음");
 
     request({
-        
+
         // url: 'http://192.168.0.23:3000/searchwemo',
         url: 'http://cutesubini.iptime.org:70/searchwemo',
         method: 'get'
@@ -140,11 +140,14 @@ app.get('/huecontrolOff',function (req,res,next) {
     console.log("hue off 들어옴");
     request({
         // url: 'http://192.168.0.23:3000/huecontrolOff',
-        url: 'http://cutesubini.iptime.org:70/huecontrolOff',
+        url: 'http://cutesubini.iptime.org/huecontrolOff',
+
         method: 'get',
         type:'JSON'
     }, function(error, response, suc){
-
+        console.log("뭐고 ㅡㅡ");
+        console.log(err);
+        
         var ddd = JSON.parse(suc);
         console.log(ddd);
         console.log(ddd.data.color);
@@ -204,7 +207,7 @@ app.get('/huecontrolOn',function (req,res,next) {
 
     request({
         // url: 'http://192.168.0.23:3000/huecontrolOn',
-        url: 'http://cutesubini.iptime.org:70/huecontrolOn',
+        url: 'http://cutesubini.iptime.org/huecontrolOn',
         method: 'get'
     }, function(error, response, suc){
         var ddd = JSON.parse(suc);
