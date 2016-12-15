@@ -284,7 +284,7 @@ app.post('/Join' ,function (req,res,next) {
     pool.getConnection(function (err,connection) {
 
         var data =[id,password,cpe_key,ip];
-       var sql = "insert into User(Id,password,cpe,ip) values(?)";
+       var sql = "insert into user(Id,password,cpe,ip) values(?)";
 
         connection.query(sql,[data],function (err, data) {
 
@@ -313,7 +313,7 @@ app.post('/Login',function (req,res) {
 
     pool.getConnection(function (err,connection) {
 
-        var sql = "select Id,password,cpe from User where Id=?";
+        var sql = "select Id,password,cpe from user where Id=?";
 
         connection.query(sql,[user.id],function (err,data) {
 
