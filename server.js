@@ -29,7 +29,7 @@ app.use(express.static(__dirname));
 
 
 //TODO:Server구동
-http.createServer(app).listen('80',function(){
+http.createServer(app).listen('8888',function(){
     console.log('서버실행했다장보리!!');
 });
 
@@ -72,49 +72,48 @@ app.get('/search' ,function (req,res) {
 
 //TODO:WEMO 제어(완료)
 app.post('/wemocontrol' ,function (req,res) {
-    console.log("왔음");
-
-    console.log(req.body.wemo);
-    var a = req.body.wemo;
-    request({
-        url: 'http://192.168.0.23:3000/wemocontrol',
-        // url: 'http://cutesubini.iptime.org:70/wemocontrol',
-        method: 'post',
-        json: {
-            wemo: a
-        }
-    }, function(error, response, body){
-            var instantPower =body.instantPower;
-            var ONSince = body.data.ONSince;
-            var OnFor=body.data.OnFor;
-            var TodayONTime= body.data.TodayONTime;
-            var TodayConsumed = body.data.TodayConsumed;
 
 
-        pool.getConnection(function (err,connection) {
 
+
+// console.log(req.body);
+    var a=req.body.state;
+    var instantPower=req.body.instantPower;
+    var ONSince=req.body.ONSince;
+    var OnFor = req.body.OnFor;
+    var TodayONTime = req.body.TodayONTime;
+    var TodayConsumed=req.body.TodayConsumed;
+    console.log(a);
+    console.log(instantPower);
+    console.log(ONSince);
+    console.log(OnFor);
+    console.log(TodayONTime);
+    console.log(TodayConsumed);
+
+           pool.getConnection(function (err,connection) {
+        
             var sql ="select Id from wemo where Id=?";
-            connection.query(sql,req.session.user_id,function (err,data) {
 
+            connection.query(sql,req.session.user_id,function (err,data) {
+        
                 if(data==""){
                     var data =[req.session.user_id,a,ONSince,OnFor,TodayONTime,TodayConsumed,instantPower];
                     var sql2 = "insert into wemo(Id,state,OnSince,OnFor,TodayONTime,TodayConsumed,instantPower) values(?)";
-
+        
                     connection.query(sql2,[data],function (err, data) {
-
+        
                         if (err) console.error("err : " + err);
                         console.log(data);
                         res.send("삽입 완료!");
                         connection.release();
                     });
                 }
-
+        
                 else {
-
-
-                    var sql3="update wemo set state=?,OnSince=?,TodayONTime=?,TodayConsumed=?,instantPower=? where Id=?";
+                    console.log("씨바ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
+                    var sql3="update wemo set state=?,OnSince=?,OnFor=?,TodayONTime=?,TodayConsumed=?,instantPower=? where Id=?";
                     connection.query(sql3,[a,ONSince,OnFor,TodayONTime,TodayConsumed,instantPower,req.session.user_id],function (err,suc) {
-
+        
                         if (err) console.error("err : " + err);
                         console.log(data);
                         res.send("삽입 완료!");
@@ -123,9 +122,7 @@ app.post('/wemocontrol' ,function (req,res) {
                 }
             });
 
-
         });
-    });
 
 });
 
@@ -136,129 +133,101 @@ app.get('/', function(req, res, next) {
 });
 
 
-app.get('/huecontrolOff',function (req,res,next) {
+app.post('/huecontrolOff',function (req,res,next) {
     console.log("hue off 들어옴");
-    request({
-        url: 'http://192.168.0.23:3000/huecontrolOff',
-        // url: 'http://cutesubini.iptime.org/huecontrolOff',
+    console.log(req.body);
+    var state = req.body.state;
+    var color= req.body.color;
+    var bright=req.body.bright;
 
-        method: 'get',
-        type:'JSON'
-    }, function(error, response, suc){
-        console.log("뭐고 ㅡㅡ");
-        console.log(err);
-        
-        var ddd = JSON.parse(suc);
-        console.log(ddd);
-        console.log(ddd.data.color);
-        console.log(ddd.data.state);
-        var state = "false";
+    console.log(state);
+    console.log(color);
+    console.log(bright);
+    pool.getConnection(function (err, connection) {
 
+        var sql = "select Id from hue where Id=?";
+        connection.query(sql, req.session.user_id, function (err, data) {
 
-        var color= ddd.data.color;
-        var bright= ddd.data.bright;
-        console.log("state값 확인");
-        console.log(state);
-        var color= ddd.data.color;
-        var bright= ddd.data.bright;
-        console.log("state값 확인");
-        console.log(state);
-        pool.getConnection(function (err,connection) {
+            if (data == "") {
+                var data = [req.session.user_id, state, color, bright];
+                var sql2 = "insert into hue(Id,state,color,bright) values(?)";
 
-            var sql ="select Id from hue where Id=?";
-            connection.query(sql,req.session.user_id,function (err,data) {
+                connection.query(sql2, [data], function (err, data) {
 
-                if(data==""){
-                    var data =[req.session.user_id,state,color,bright];
-                    var sql2 = "insert into hue(Id,state,color,bright) values(?)";
+                    if (err) console.error("err : " + err);
+                    console.log(data);
+                    res.send("삽입 완료!");
+                    connection.release();
+                });
+            }
 
-                    connection.query(sql2,[data],function (err, data) {
+            else {
 
-                        if (err) console.error("err : " + err);
-                        console.log(data);
-                        res.send("삽입 완료!");
-                        connection.release();
-                    });
-                }
+                var sql3 = "update hue set state=?,color=?,bright=? where Id=?";
+                connection.query(sql3, [state, color, bright, req.session.user_id], function (err, suc) {
 
-                else {
-
-                    var sql3="update hue set state=?,color=?,bright=? where Id=?";
-                    connection.query(sql3,[state,color,bright,req.session.user_id],function (err,suc) {
-
-                        if (err) console.error("err : " + err);
-                        console.log(data);
-                        res.send("삽입 완료!");
-                        connection.release();
-                    })
-                }
-            });
-
-
+                    if (err) console.error("err : " + err);
+                    console.log(data);
+                    res.send("삽입 완료!");
+                    connection.release();
+                })
+            }
         });
 
-    });
 
+    });
 });
 
-app.get('/huecontrolOn',function (req,res,next) {
+
+
+app.post('/huecontrolOn',function (req,res,next) {
 
     console.log("hue on 들어옴");
+    console.log(req.body);
+var state = req.body.state;
+    var color= req.body.color;
+    var bright=req.body.bright;
 
-    request({
-        url: 'http://192.168.0.23:3000/huecontrolOn',
-        // url: 'http://cutesubini.iptime.org/huecontrolOn',
-        method: 'get'
-    }, function(error, response, suc){
-        var ddd = JSON.parse(suc);
-        console.log(ddd);
-        console.log(ddd.data.color);
-        console.log(ddd.data.state);
-        var state = "true";
+    console.log(state);
+    console.log(color);
+    console.log(bright);
+    pool.getConnection(function (err, connection) {
 
+        var sql = "select Id from hue where Id=?";
+        connection.query(sql, req.session.user_id, function (err, data) {
 
-        var color= ddd.data.color;
-        var bright= ddd.data.bright;
-        console.log("state값 확인");
-        console.log(state);
+            if (data == "") {
+                var data = [req.session.user_id, state, color, bright];
+                var sql2 = "insert into hue(Id,state,color,bright) values(?)";
 
-        pool.getConnection(function (err,connection) {
+                connection.query(sql2, [data], function (err, data) {
 
-            var sql ="select Id from hue where Id=?";
-            connection.query(sql,req.session.user_id,function (err,data) {
+                    if (err) console.error("err : " + err);
+                    console.log(data);
+                    res.send("삽입 완료!");
+                    connection.release();
+                });
+            }
 
-                if(data==""){
-                    var data =[req.session.user_id,state,color,bright];
-                    var sql2 = "insert into hue(Id,state,color,bright) values(?)";
+            else {
 
-                    connection.query(sql2,[data],function (err, data) {
+                var sql3 = "update hue set state=?,color=?,bright=? where Id=?";
+                connection.query(sql3, [state, color, bright, req.session.user_id], function (err, suc) {
 
-                        if (err) console.error("err : " + err);
-                        console.log(data);
-                        res.send("삽입 완료!");
-                        connection.release();
-                    });
-                }
-
-                else {
-
-                    var sql3="update hue set state=?,color=?,bright=? where Id=?";
-                    connection.query(sql3,[state,color,bright,req.session.user_id],function (err,suc) {
-
-                        if (err) console.error("err : " + err);
-                        console.log(data);
-                        res.send("삽입 완료!");
-                        connection.release();
-                    })
-                }
-            });
-
-
+                    if (err) console.error("err : " + err);
+                    console.log(data);
+                    res.send("삽입 완료!");
+                    connection.release();
+                })
+            }
         });
 
 
     });
 });
+
+
+
 
 
 //TODO:HUE 기기정보
@@ -365,3 +334,24 @@ app.get('/Logout',function (req,res,next) {
     res.clearCookie('cpe');
     res.end("Logout");
 });
+
+
+
+
+app.get('/getWemoData',function (req,res) {
+
+    pool.getConnection(function (err,connection) {
+
+        var sql = "select state,OnSince,OnFor,TodayONTime,TodayConsumed,instantPower from wemo where Id=?";
+
+        connection.query(sql,[req.session.user_id],function (err, data) {
+
+            if (err) console.error("err : " + err);
+            console.log(data);
+            res.send(data);
+            connection.release();
+        });
+    });
+
+});
+
