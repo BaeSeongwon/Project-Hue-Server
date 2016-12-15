@@ -51,8 +51,8 @@ app.get('/search' ,function (req,res) {
     console.log("왔음");
 
     request({
-        // url: 'http://192.168.0.26:3000/searchwemo',
-        url: 'http://cutesubini.iptime.org:70/searchwemo',
+        url: 'http://192.168.0.23:3000/searchwemo',
+        // url: 'http://cutesubini.iptime.org:70/searchwemo',
         method: 'get'
     }, function(error, response, body){
         if(error) {
@@ -76,8 +76,8 @@ app.post('/wemocontrol' ,function (req,res) {
     console.log(req.body.wemo);
     var a = req.body.wemo;
     request({
-        // url: 'http://192.168.0.26:3000/wemocontrol',
-        url: 'http://cutesubini.iptime.org:70/wemocontrol',
+        url: 'http://192.168.0.23:3000/wemocontrol',
+        // url: 'http://cutesubini.iptime.org:70/wemocontrol',
         method: 'post',
         json: {
             wemo: a
@@ -138,8 +138,8 @@ app.get('/', function(req, res, next) {
 app.get('/huecontrolOff',function (req,res,next) {
     console.log("hue off 들어옴");
     request({
-        // url: 'http://192.168.0.26:3000/huecontrolOff',
-        url: 'http://cutesubini.iptime.org:70/huecontrolOff',
+        url: 'http://192.168.0.23:3000/huecontrolOff',
+        // url: 'http://cutesubini.iptime.org:70/huecontrolOff',
         method: 'get',
         type:'JSON'
     }, function(error, response, suc){
@@ -202,8 +202,8 @@ app.get('/huecontrolOn',function (req,res,next) {
     console.log("hue on 들어옴");
 
     request({
-        // url: 'http://192.168.0.26:3000/huecontrolOn',
-        url: 'http://cutesubini.iptime.org:70/huecontrolOn',
+        url: 'http://192.168.0.23:3000/huecontrolOn',
+        // url: 'http://cutesubini.iptime.org:70/huecontrolOn',
         method: 'get'
     }, function(error, response, suc){
         var ddd = JSON.parse(suc);
@@ -261,8 +261,8 @@ app.get('/huecontrolOn',function (req,res,next) {
 app.get('/searchhue',function (req,res,next) {
 
     request({
-        // url: 'http://192.168.0.26:3000/searchhue',
-        url: 'http://cutesubini.iptime.org:70/searchhue',
+        url: 'http://192.168.0.23:3000/searchhue',
+        // url: 'http://cutesubini.iptime.org:70/searchhue',
         method: 'get'
     }, function(error, response, body){
         console.log(body);
