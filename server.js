@@ -77,8 +77,8 @@ app.post('/wemocontrol' ,function (req,res) {
     console.log(req.body.wemo);
     var a = req.body.wemo;
     request({
-        // url: 'http://192.168.0.23:3000/wemocontrol',
-        url: 'http://cutesubini.iptime.org:70/wemocontrol',
+        url: 'http://192.168.0.23:3000/wemocontrol',
+        // url: 'http://cutesubini.iptime.org:70/wemocontrol',
         method: 'post',
         json: {
             wemo: a
@@ -139,8 +139,8 @@ app.get('/', function(req, res, next) {
 app.get('/huecontrolOff',function (req,res,next) {
     console.log("hue off 들어옴");
     request({
-        // url: 'http://192.168.0.23:3000/huecontrolOff',
-        url: 'http://cutesubini.iptime.org/huecontrolOff',
+        url: 'http://192.168.0.23:3000/huecontrolOff',
+        // url: 'http://cutesubini.iptime.org/huecontrolOff',
 
         method: 'get',
         type:'JSON'
@@ -206,8 +206,8 @@ app.get('/huecontrolOn',function (req,res,next) {
     console.log("hue on 들어옴");
 
     request({
-        // url: 'http://192.168.0.23:3000/huecontrolOn',
-        url: 'http://cutesubini.iptime.org/huecontrolOn',
+        url: 'http://192.168.0.23:3000/huecontrolOn',
+        // url: 'http://cutesubini.iptime.org/huecontrolOn',
         method: 'get'
     }, function(error, response, suc){
         var ddd = JSON.parse(suc);
