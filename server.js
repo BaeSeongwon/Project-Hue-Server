@@ -37,10 +37,10 @@ http.createServer(app).listen('80',function(){
 //TODO:DB Connection
 var pool = mysql.createPool({
     connectionLimit: 15,
-    host: 'localhost',
+    host: 'hue.c4yiq5vuopvi.ap-northeast-2.rds.amazonaws.com',
     user: 'root',
-    database:'web',
-    password: '1234'
+    database:'HueDB',
+    password: 'seongwon9179'
 });
 
 
