@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Created by Parksubin on 2016-12-15.
  */
 var http = require('http');
@@ -29,7 +29,7 @@ app.use(express.static(__dirname));
 
 
 //TODO:Server구동
-http.createServer(app).listen('8888',function(){
+http.createServer(app).listen('80',function(){
     console.log('서버실행했다장보리!!');
 });
 
